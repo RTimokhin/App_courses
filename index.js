@@ -21,6 +21,8 @@ app.set('views', 'views'); //название папки, где будут хр
 app.use(express.static('public')); //сделаем папку public статической
 //теперь express при подгрузке страниц с адресом / обращается к папке public
 
+app.use(express.urlencoded({extended: true}))
+
 //регистрируем роутеры в express
 app.use('/', homeRoutes);
 app.use('/add', addRoutes);
