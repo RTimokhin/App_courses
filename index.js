@@ -1,6 +1,9 @@
 const express = require('express'); //импортируем пакет express
 const path = require('path'); //модуль для работы с путями
 const exphbs = require('express-handlebars'); //поключм шаблонизатор handlebars
+const homeRoutes = require('./routes/home'); //подключим роутер для главной страницы
+const addRoutes = require('./routes/add');
+const coursesRoutes = require('./routes/courses');
 const app = express(); //создадим объект, представляющий приложение
 //функция createApplication из файла lib/express.js является функцией, экспортируемой по умолчанию,
 //именно к ней мы обращаемся, выполняя вызов функции express()
@@ -18,15 +21,10 @@ app.set('views', 'views'); //название папки, где будут хр
 app.use(express.static('public')); //сделаем папку public статической
 //теперь express при подгрузке страниц с адресом / обращается к папке public
 
-//обработаем get запрос на главную страницу
-app.get('/', (req, res) => {
-  res.render('index');
-})
-
-//обработаем get запрос на страницу about.html
-app.get('/about', (req, res) => {
-  res.render('about');
-})
+//регистрируем роутеры в express
+app.use('/', homeRoutes);
+app.use('/add', addRoutes);
+app.use('/courses', coursesRoutes);
 
 const PORT = process.env.PORT || 2000; //по умолчанию значение порта 2000
 
