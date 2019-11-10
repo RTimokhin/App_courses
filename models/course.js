@@ -22,10 +22,10 @@ class Course {
     }
   }
 
-  async update(course) {
-    const courses = await Course.getAll();
-    const idx = courses.findIndex(c => c.id => courses.id):
-    courses[ind] = course;
+  static async update(course) {
+    const courses = await Course.getAll(); //получим список всех курсов
+    const idx = courses.findIndex(c => c.id === courses.id): //найдем курс с искомым id
+    courses[ind] = course; //заменим данные искомого курса
 
     return new Promise( (resolve, reject) => {
       fs.readFile( //считаем данные из файла
@@ -83,7 +83,7 @@ class Course {
   //реализуем метод для получения id
   static async getById(id) {
     const courses = await Course.getAll(); //получим список всех курсов
-    return courses.find(c => c.id === id); //если id курса совпадает с искомым id, тогда возвращаем его
+    return courses.find(c => c.id === id); //если id курса совпадает с искомым id, вернём его
   }
 }
 
