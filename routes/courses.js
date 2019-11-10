@@ -12,6 +12,24 @@ router.get('/', async (req, res) => {
   })
 })
 
+//создадим обработчик для маршрута /:id/edit
+router.get('/:id/edit', async (req, res) => {
+  if(!req.query.allow) { //если query параметра, отвечающего за редактирование курса нет
+    return res.redirect('/'); //то перенаправим запрос на главную страницу
+  }
+  const course = await Course.getById(req.param.id); //получим id курса
+  res.render('course-edit', { //отобразим данные на странице course-edit
+    title: `Редактировать ${course.title}`,
+    course
+  })
+})
+
+//создадим обработчик для post запроса на странице /edit
+router.post('/edit', async (req, res) => {
+  await Course.update(req.body); //обновим данные у модели курсов
+  res.redirect('/courses'); //перенаправим на стриницу курсов
+})
+
 router.get('/:id', async (req, res) => {
   const course = await Course.getById(req.params.id);
   res.render('course', {

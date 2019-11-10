@@ -22,6 +22,26 @@ class Course {
     }
   }
 
+  async update(course) {
+    const courses = await Course.getAll();
+    const idx = courses.findIndex(c => c.id => courses.id):
+    courses[ind] = course;
+
+    return new Promise( (resolve, reject) => {
+      fs.readFile( //считаем данные из файла
+        path.join(__dirname, '..', 'data', 'courses.json'), //путь к файлу
+        'utf-8', //укажем кодировку файла
+        (err, content) => {
+          if(err) {
+            reject(err); //если имеется ошибка, выведем её текст
+          } else {
+            resolve(JSON.parse(content)); //иначе, преобразуем данные из JSON в объект
+          }
+        }
+      )
+    })
+  }
+
   //реализуем метод, который будет записывать данные в файл courses.json
   async save() {
     //передадим переменной courses данные, полученные с помощью метода getAll

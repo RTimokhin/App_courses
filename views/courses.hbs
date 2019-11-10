@@ -14,11 +14,12 @@
       </div>
       <div class="card-action">
         <a href="/courses/{{id}}" target="_blank">Открыть курс</a>
+        <a href="/courses/{{id}}/edit?allow=true">Редактировать</a> <!--добавляем query параметр-->
       </div>
     </div>
   </div>
 </div>
 {{/each}}
 {{else}}
-<p>Доступных курсов нет</p> <!--иначе, выведем сообщение-->
+<p>Доступных курсов нет</p>
 {{/if}}

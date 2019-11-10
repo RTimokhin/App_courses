@@ -1,0 +1,30 @@
+<h1>Редактироватьй {{course.title}}</h1>
+
+<!--После отправки данные с формы будут уходить по адресу /add-->
+<form action="/courses/edit" method="POST">
+  <div class="input-field"> <!--зададим класс для элемента-->
+    <input id="title" name="title" type="text" class="validate" required value="{{course.title}}"> <!--добавим поле ввода с данными по умолчанию-->
+    <label for="title">Навание курса</label> <!--label для данноо поля-->
+    <!--установим сообщения-подсказки для каждого поля-->
+     <span class="helper-text" data-error="Введите название для курса"</span>
+  </div>
+
+  <div class="input-field"> <!--зададим класс для элемента-->
+    <input id="price" name="price" type="number" class="validate" requiled min="1" value="{{course.price}}"> <!--добавим поле ввода с данными по умолчанию-->
+    <label for="price">Стоимость курса</label> <!--label для данного поля-->
+    <!--установим сообщения-подсказки для каждого поля-->
+     <span class="helper-text" data-error="Введите стоимость курса"</span>
+  </div>
+
+  <div class="input-field"> <!--зададим класс для элемента-->
+    <input id="img" name="img" type="text" class="validate" required value="{{course.img}}"> <!--добавим поле ввода с данными по умолчанию-->
+    <label for="img">URL изображения</label> <!--label для данноо поля-->
+    <!--установим сообщения-подсказки для каждого поля-->
+     <span class="helper-text" data-error="Введите URL изображения"</span>
+  </div>
+
+  <input type="hidden" name="id" value="{{course.id}}"> <!--добавим сркытое поле с id курса-->
+
+  <!-- добавим элемент button на форму-->
+  <button class="btn btn-primary">Редактировать курс</button> <!--добавим кнопку на форму-->
+</form>
