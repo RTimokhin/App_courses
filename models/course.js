@@ -59,6 +59,12 @@ class Course {
       )
     })
   }
+
+  //реализуем метод для получения id
+  static async getById(id) {
+    const courses = await Course.getAll(); //получим список всех курсов
+    return courses.find(c => c.id === id); //если id курса совпадает с искомым id, тогда возвращаем его
+  }
 }
 
 module.exports = Course; //экспортируем схему Course

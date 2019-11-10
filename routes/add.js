@@ -19,4 +19,4 @@ router.post('/', async (req, res) => {
   res.redirect('/courses'); //перенаправим пользователя на страницу курсов
 })
 
-module.exports = router; //экспортируем модуль
+module.exports = router; //экспортируем данный роут
