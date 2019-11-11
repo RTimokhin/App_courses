@@ -1,7 +1,8 @@
 <h1>Корзина</h1>
 
-{{#if courses.length}}
-  <table>
+<div id="card">
+{{#if courses.length}} <!--если длина массива с курсами не равна 0-->
+  <table> <!--то выведем на страницу следующий контент-->
     <thead>
       <tr>
         <th>Название</th>
@@ -11,19 +12,20 @@
     </thead>
     <tbody>
 
-      {{#each courses}}
+      {{#each courses}} <!--для каждого курса в корзине выведем таблицу-->
       <tr>
         <td>{{title}}</td>
         <td>{{count}}</td>
-        <td>
-          <button class="btn btm-small">Удалить</button>
-        </td>
+        <!--кнопка удаления курсов из корзины-->
+        <td><button class="btn btm-small js-remove" data-id="{{id}}">Удалить</button></td>
       </tr>
       {{/each}}
     </tbody>
   </table>
 
+  <!--выведем общкю цену за купленные курсы-->
   <p><strong>Цена:</strong> <span class="price">{{price}}</span></p>
-{{else}}
+{{else}} <!--если корзина пуста, выведем на страницу контент-->
   <p>Корзина пуста</p>
 {{/if}}
+</div>

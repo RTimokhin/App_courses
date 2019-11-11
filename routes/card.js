@@ -9,6 +9,13 @@ router.post('/add', async (req, res) => {
   res.redirect('/card');
 })
 
+//реализуем метод delete
+router.delete('/remove/:id', async (req, res) => {
+  //передадим id курса, который хотим удалить в карточку
+  const card = await Card.remove(req.params.id);
+  res.status(200).json(card); //укажем статус и карту в формате json
+})
+
 router.get('/', async (req, res) => {
   const card = await Card.fetch();
   res.render('card', {
