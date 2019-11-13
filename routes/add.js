@@ -13,10 +13,18 @@ router.get('/', (req, res) => {
 
 //обработаем post запрос на страницу add
 router.post('/', async (req, res) => {
-  //передадим переменной course значения с помощью схемы Course
-  const course = new Course(req.body.title, req.body.price, req.body.img);
-  await course.save(); //сохраним данные в ...
-  res.redirect('/courses'); //перенаправим пользователя на страницу курсов
+  const course = new Course({ //на основе модели Course создадим объект с конфигурацией
+    title: req.body.title,
+    price: req.body.price,
+    img: req.body.img
+  })
+
+  try {
+    await course.save(); //сохраним данные
+    res.redirect('/courses'); //перенаправим пользователя на страницу курсов
+  } catch(err) {
+    console.log(err);
+  }
 })
 
 module.exports = router; //экспортируем данный роут

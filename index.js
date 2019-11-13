@@ -1,6 +1,7 @@
 const express = require('express'); //импортируем пакет express
 const path = require('path'); //модуль для работы с путями
-const exphbs = require('express-handlebars'); //поключм шаблонизатор handlebars
+const mongoose = require('mongoose'); //подключим библиотеку для взаимодействия с mongoDB
+const exphbs = require('express-handlebars'); //поключbм шаблонизатор handlebars
 const homeRoutes = require('./routes/home'); //подключим роутер для главной страницы
 const addRoutes = require('./routes/add');
 const cardRoutes = require('./routes/card');
@@ -32,7 +33,17 @@ app.use('/card', cardRoutes);
 
 const PORT = process.env.PORT || 2000; //по умолчанию значение порта 2000
 
-app.listen(PORT, () => { //слушаем нужный порт
-  //если сервер запущен, вызывается callback ф-ия, выводящая сообщение в консоль
-  console.log(`Server is running on port ${PORT}`);
-})
+//создадим функция для подключения к БД mongoDB и запуска приложения
+async function start() {
+  try {
+    const url = 'mongodb+srv://sygo88:web456258$@cluster0-h7mvl.mongodb.net/shop'; //url для соединения с mondoDB
+    await mongoose.connect(url, {use NewUrlParser: true});
+    app.listen(PORT, () => { //слушаем нужный порт
+      //если сервер запущен, вызывается callback ф-ия, выводящая сообщение в консоль
+      console.log(`Server is running on port ${PORT}`);
+    })
+  } catch(err) {
+    console.log(err);
+  }
+}
+start(); //запустим приложение

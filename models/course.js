@@ -1,90 +1,31 @@
-const uuid = require('uuid/v4'); //подключим модуль для генерации уникальных идентификаторов
-const fs = require('fs'); //подключим модуль для работы с файловой системой
-const path = require('path'); //подключим модуль для работы с путями
+//подключим сущности Schema, model из библиотеки mongoose для взаимодействия с БД mongoDB
+const {Schema, model} = require('mongoose');
 
-//создадим модель в виде класса Course
-class Course {
-  constructor(title, price, img) {
-    //создадим поля с помощью приватных переменных
-    this.title = title
-    this.price = price
-    this.img = img
-    this.id = uuid()
+//создадим новую схему данных для описания свойств модели
+const courseSchema = new Schema({
+  title: { //название курса
+    type: String, //тип данных строка
+    required: true //поле обязательное для создания модели
+  },
+  price: { //цена курса
+    type: Number, //тип данных число
+    required: true //поле обязательное для создания модели
+  },
+  img: String, //строковый тип данных
+  userId: {
+    type: Schema.Types.ObjectId, //??
+    ref: 'User' //??
   }
+})
 
-  //зададим структуру данных для файла JSON
-  toJSON() {
-    return {
-      title: this.title,
-      price: this.price,
-      img: this.img,
-      id: this.id
-    }
-  }
+//??
+courseSchema.method('toClient', function() {
+  const course = this.toObject(); //??
 
-  static async update(course) {
-    const courses = await Course.getAll(); //получим список всех курсов
-    const idx = courses.findIndex(c => c.id === courses.id): //найдем курс с искомым id
-    courses[ind] = course; //заменим данные искомого курса
+  course.id = course._id; //??
+  delete course._id; //удалим id курса
 
-    return new Promise( (resolve, reject) => {
-      fs.readFile( //считаем данные из файла
-        path.join(__dirname, '..', 'data', 'courses.json'), //путь к файлу
-        'utf-8', //укажем кодировку файла
-        (err, content) => {
-          if(err) {
-            reject(err); //если имеется ошибка, выведем её текст
-          } else {
-            resolve(JSON.parse(content)); //иначе, преобразуем данные из JSON в объект
-          }
-        }
-      )
-    })
-  }
+  return course; //вернем курс
+})
 
-  //реализуем метод, который будет записывать данные в файл courses.json
-  async save() {
-    //передадим переменной courses данные, полученные с помощью метода getAll
-    const courses = await Course.getAll();
-    courses.push(this.toJSON()); //добавим массиву объект с данными
-    return new Promise( (resolve, reject) => {
-      fs.writeFile( //запишем данные в файл
-        path.join(__dirname, '..', 'data', 'courses.json'), //путь к файлу
-        //преобразуем полученные данные в формат JSON
-        JSON.stringify(courses),
-        (err) => {
-          if(err) {
-            reject(err); //если есть ошибка, выведем её
-          } else {
-            resolve();
-          }
-        }
-      )
-    })
-  }
-
-  //создадим статический метод модели для получения данных из файла
-  static getAll() {
-    return new Promise( (resolve, reject) => {
-      fs.readFile( //считаем данные из файла
-        path.join(__dirname, '..', 'data', 'courses.json'), //путь к файлу
-        'utf-8', //укажем кодировку файла
-        (err, content) => {
-          if(err) {
-            reject(err); //если имеется ошибка, выведем её текст
-          } else {
-            resolve(JSON.parse(content)); //иначе, преобразуем данные из JSON в объект
-          }
-        }
-      )
-    })
-  }
-
-  //реализуем метод для получения id
-  static async getById(id) {
-    const courses = await Course.getAll(); //получим список всех курсов
-    return courses.find(c => c.id === id); //если id курса совпадает с искомым id, вернём его
-  }
-}
-
-module.exports = Course; //экспортируем схему Course
+module.exports = model('Course', courseSchema); //создадим и экспортируем модель Course на основе схемы course
