@@ -6,6 +6,8 @@ const homeRoutes = require('./routes/home'); //подключим модуль �
 const addRoutes = require('./routes/add'); //подключим модуль маршрутизации add из папки routes
 const cardRoutes = require('./routes/card'); //подключим модуль маршрутизации card из папки routes
 const coursesRoutes = require('./routes/courses'); //подключим модуль маршрутизации courses из папки routes
+const User = required('./models/user'); //подключим модель user
+
 const app = express(); //создадим объект, представляющий приложение
 //функция createApplication из файла lib/express.js является функцией, экспортируемой по умолчанию,
 //именно к ней мы обращаемся, выполняя вызов функции express()
@@ -19,6 +21,16 @@ const hbs = exphbs.create({
 app.engine('hbs', hbs.engine); //регистрируем в express движок handlebars
 app.set('view engine', 'hbs'); //устанавливаем handlebars как используемый движок представления
 app.set('views', 'views'); //название папки, где будут храниться шаблоны
+
+app.use(async (req, res, next) => {
+  try {
+    const user = await User.findById('');
+    req.user = user;
+    next();
+  } catch(err) {
+    console.log(err);
+  }
+})
 
 app.use(express.static(path.join(__dirname, 'public'))); //сделаем папку public статической
 //теперь express при подгрузке страниц с адресом / обращается к папке public
@@ -41,6 +53,15 @@ async function start() {
       useFindAndModify: false,
       useNewUrlParser: true
     })
+    const candidate = await User.findOne(); //проверим существует ли данный пользователь
+    if(!candidate) { //если нет, создадим его
+      const user = new User({
+        email: 'test@email.com',
+        name: 'anonymous',
+        cart: {items: []} //по умолчанию корзина - пустой объект, с пустым массивом
+      })
+      await user.save(); //сохраним данные
+    }
     app.listen(PORT, () => { //слушаем нужный порт
       //если сервер запущен, вызывается callback ф-ия, выводящая сообщение в консоль
       console.log(`Server is running on port ${PORT}`);

@@ -12,9 +12,9 @@ const courseSchema = new Schema({
     required: true //поле обязательное для создания модели
   },
   img: String, //строковый тип данных
-  userId: {
-    type: Schema.Types.ObjectId, //??
-    ref: 'User' //??
+  userId: { //id пользователя
+    type: Schema.Types.ObjectId, //тип данных ObjectId
+    ref: 'User' //свяжем с коллекцией user
   }
 })
 

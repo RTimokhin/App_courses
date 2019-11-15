@@ -4,7 +4,8 @@ const router = Router();
 
 //обработаем get запрос на страницу courses
 router.get('/', async (req, res) => {
-  const courses = await Course.find(); //найдем все существующие в БД курсы
+  //найдем все существующие в БД курсы и добавим информацию о пользователе email, name
+  const courses = await Course.find().populate('userId').select('email name');
   //отобразим на странице данные из шаблона courses.hbs
   res.render('courses', {
     title: 'Курсы',
