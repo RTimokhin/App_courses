@@ -1,28 +1,51 @@
 const {Router} = require('express'); //подключим фраймворк express
-const Card = require('../models/card');
 const Course = require('../models/course'); //подключим модель course
 const router = Router();
 
+function mapCartItems(cart) {
+  return cart.items.map(c => ({
+    ...c.courseId._doc, count: c.count
+  }))
+}
+
+//посчитаем сумму, находящихся в корзине курсов
+function computePrice(courses) {
+  return courses.reduce( (total, course) => {
+    return total += course.price * course.count
+  }, 0)
+}
+
 router.post('/add', async (req, res) => {
-  const course = await Course.getById(req.body.id);
-  await Card.add(course);
-  res.redirect('/card');
+  const course = await Course.findById(req.body.id); //получим id курса
+  await req.user.addToCart(course);
+  res.redirect('/card'); //перенаправим запрос на страницу корзины
 })
 
 //реализуем метод delete
 router.delete('/remove/:id', async (req, res) => {
-  //передадим id курса, который хотим удалить в карточку
-  const card = await Card.remove(req.params.id);
-  res.status(200).json(card); //укажем статус и карту в формате json
+  //передадим в метод removeFromCart id курса, который необходимо удалить
+  await req.user.removeFromCart(req.params.id);
+  const user = await req.user.populate('cart.items.courseId').execPopulate();
+  const courses = mapCartItems(user.cart);
+  const cart = {
+    courses, price: computePrice(courses)
+  }
+  res.status(200).json(cart);
 })
 
 router.get('/', async (req, res) => {
-  const card = await Card.fetch();
+  const user = await req.user
+  //добавим в текущую коллекцию содержимое курса из коллекции cart
+    .populate('cart.items.courseId')
+    .execPopulate();
+
+  const courses = mapCartItems(user.cart); //сформируем массив курсов
+
   res.render('card', {
     title: 'Корзина',
     isCard: true,
-    courses: card.courses,
-    price: card.price
+    courses: courses,
+    price: computePrice(courses)
   })
 })
 
