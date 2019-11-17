@@ -1,52 +1,55 @@
-const {Router} = require('express'); //подключим фраймворк express
-const Course = require('../models/course'); //импортируем модель Course
-const router = Router();
+const {Router} = require('express')
+const Course = require('../models/course')
+const router = Router()
 
-//обработаем get запрос на страницу courses
 router.get('/', async (req, res) => {
-  //найдем все существующие в БД курсы и добавим информацию о пользователе email, name
-  const courses = await Course.find().populate('userId').select('email name');
-  //отобразим на странице данные из шаблона courses.hbs
+  const courses = await Course.find()
+    .populate('userId', 'email name')
+    .select('price title img')
+
   res.render('courses', {
     title: 'Курсы',
-    isCourses: true
+    isCourses: true,
+    courses
   })
 })
 
-//создадим обработчик для маршрута /:id/edit
 router.get('/:id/edit', async (req, res) => {
-  if(!req.query.allow) { //если query параметра, отвечающего за редактирование курса нет
-    return res.redirect('/'); //то перенаправим запрос на главную страницу
+  if (!req.query.allow) {
+    return res.redirect('/')
   }
-  const course = await Course.findById(req.param.id); //получим id курса
-  res.render('course-edit', { //отобразим данные на странице course-edit
+
+  const course = await Course.findById(req.params.id)
+
+  res.render('course-edit', {
     title: `Редактировать ${course.title}`,
     course
   })
 })
 
-//создадим обработчик для post запроса на странице /edit
 router.post('/edit', async (req, res) => {
-  await Course.findByIdAnndUpdate(req.body.id, req.body); //найдем и обновим данные курса
-  res.redirect('/courses'); //перенаправим на стриницу курсов
+  const {id} = req.body
+  delete req.body.id
+  await Course.findByIdAndUpdate(id, req.body)
+  res.redirect('/courses')
 })
 
 router.post('/remove', async (req, res) => {
   try {
-    await Course.deleteOne({_id: req.body.id});
-    res.redirect('/courses');
-  } catch(err) {
-  console.log(err);
+    await Course.deleteOne({_id: req.body.id})
+    res.redirect('/courses')
+  } catch (e) {
+    console.log(e)
   }
 })
 
 router.get('/:id', async (req, res) => {
-  const course = await Course.findById(req.params.id);
+  const course = await Course.findById(req.params.id)
   res.render('course', {
     layout: 'empty',
     title: `Курс ${course.title}`,
     course
-  });
+  })
 })
 
-module.exports = router; //экспортируем данный роут
+module.exports = router

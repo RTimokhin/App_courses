@@ -5,8 +5,9 @@ const exphbs = require('express-handlebars'); //поключим шаблони�
 const homeRoutes = require('./routes/home'); //подключим модуль маршрутизации home из папки routes
 const addRoutes = require('./routes/add'); //подключим модуль маршрутизации add из папки routes
 const cardRoutes = require('./routes/card'); //подключим модуль маршрутизации card из папки routes
+const ordersRoutes = require('./routes/orders'); //подключим модуль маршрутизации orders из папки routes
 const coursesRoutes = require('./routes/courses'); //подключим модуль маршрутизации courses из папки routes
-const User = required('./models/user'); //подключим модель user
+const User = require('./models/user'); //подключим модель user
 
 const app = express(); //создадим объект, представляющий приложение
 //функция createApplication из файла lib/express.js является функцией, экспортируемой по умолчанию,
@@ -24,7 +25,7 @@ app.set('views', 'views'); //название папки, где будут хр
 
 app.use(async (req, res, next) => {
   try {
-    const user = await User.findById('');
+    const user = await User.findById('5dd1767bb409491ed489e9fc');
     req.user = user;
     next();
   } catch(err) {
@@ -42,6 +43,7 @@ app.use('/', homeRoutes);
 app.use('/add', addRoutes);
 app.use('/courses', coursesRoutes);
 app.use('/card', cardRoutes);
+app.use('/orders', ordersRoutes);
 
 const PORT = process.env.PORT || 2000; //по умолчанию значение порта 2000
 
@@ -51,6 +53,7 @@ async function start() {
     const url = 'mongodb+srv://sygo88:web456258$@cluster0-h7mvl.mongodb.net/shop'; //url для соединения с mondoDB
     await mongoose.connect(url, {
       useFindAndModify: false,
+      useUnifiedTopology: true,
       useNewUrlParser: true
     })
     const candidate = await User.findOne(); //проверим существует ли данный пользователь

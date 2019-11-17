@@ -25,6 +25,9 @@
 
   <!--выведем общкю цену за купленные курсы-->
   <p><strong>Цена:</strong> <span class="price">{{price}}</span></p>
+
+  <form actions="/orders" method="POST">
+    <button type="submit" class="btn">Сделать заказ</button>
 {{else}} <!--если корзина пуста, выведем на страницу контент-->
   <p>Корзина пуста</p>
 {{/if}}

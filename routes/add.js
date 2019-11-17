@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 //обработаем post запрос на страницу add
 router.post('/', async (req, res) => {
-  const course = new Course({ //на основе модели Course создадим объект с конфигурацией
+  const course = new Course({ //создадим новый объект на основе модели Course
     title: req.body.title,
     price: req.body.price,
     img: req.body.img,

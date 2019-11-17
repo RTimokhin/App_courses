@@ -1,14 +1,32 @@
-const toCurrent = price => {
-  return new Intl.NumberFormat('ru-RU', { //приведём сумму к формату рублей
-    currency: 'rub',
-    style: 'currency'
-  }).format(price);
+//напишем функцию для перевода отображения суммы в языко-зависимый формат
+const toCurrency = price => {
+	//создадим объект для языко-зависимого форматирования чисел
+  return new Intl.NumberFormat('ru-RU', {
+    currency: 'rub', //укажем валюту, используемую для форматировании суммы
+    style: 'currency' //форматирование проводится для валюты
+  }).format(price) //применим форматирование
 }
 
-//у каждого элемента с классом price изменим формат представления значения
+//напишем функцию для форматирования даты
+const toDate = date => {
+	//создадим объект для языко-зависимого форматирования даты
+  return new Intl.DateTimeFormat('ru-RU', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit'
+  }).format(new Date(date)) //применим форматирование
+}
+
+//для каждого элемента с селектором price изменим формат представления значения
 document.querySelectorAll('.price').forEach(node => {
   node.textContent = toCurrency(node.textContent);
 })
+
+document.querySelectorAll('.date').forEach(node => {
+  node.textContent = toDate(node.textContent);
 
 const $card = document.querySelector('#card'); //получим элемент с селектором card
 if($card) { //если элемент с данным селектором существует
