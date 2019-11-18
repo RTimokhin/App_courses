@@ -1,4 +1,5 @@
 const {Router} = require('express');
+const User = require('../models/user');
 const router = Router();
 
 //создадим обработчик для get запроса по маршруту /login
@@ -17,8 +18,15 @@ router.get('/logout', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
+  const user = await User.findById('5dd1767bb409491ed489e9fc');
+  req.session.user = user; //в поле user объекта session добавим данного пользователя
   req.session.isAuthenticated = true; //после аутентификации установим данный флаг в значение true
-  res.redirect('/'); //перенаправим запрос на главную страницу
+  req.session.save(err => {
+    if(err) {
+      throw err
+    }
+    res.redirect('/'); //перенаправим запрос на главную страницу
+  })
 })
 
 module.exports = router; //экспортируем данный роутер
