@@ -1,0 +1,61 @@
+<div class="auth">
+  <div class="row">
+      <div class="col s12">
+        <ul class="tabs">
+          <li class="tab col s6"><a class="active" href="#login">Войти</a></li>
+          <li class="tab col s6"><a class="active" href="#register">Регистрация</a></li>
+        </ul>
+      </div>
+        <div id="login" class="col s6 offset-s3">
+          <h1>Войти в магазин</h1>
+          <!--После отправки данные с формы будут уходить по адресу /add-->
+          <form action="/auth/login" method="POST">
+            <div class="input-field"> <!--зададим класс для элемента-->
+              <input id="email" name="email" type="email" class="validate" required> <!--добавим поле ввода. не может быть пустым-->
+              <label for="email">Email</label> <!--label для данноо поля-->
+              <!--установим сообщения-подсказки для каждого поля-->
+               <span class="helper-text" data-error="Введите email"</span>
+            </div>
+
+            <div class="input-field"> <!--зададим класс для элемента-->
+              <input id="password" name="password" type="password" class="validate" requiled> <!--добавим поле ввода. не может быть меньше 1-->
+              <label for="password">Пароль</label> <!--label для данноо поля-->
+              <!--установим сообщения-подсказки для каждого поля-->
+               <span class="helper-text" data-error="Введите пароль"</span>
+            </div>
+
+            <!-- добавим элемент button на форму-->
+            <button class="btn btn-primary" type="submit">Войти</button>
+          </form>
+        </div>
+      <div id="register" class="col s6 offset-s3">
+        <h1>Создать аккаунт</h1>
+        <!--После отправки данные с формы будут уходить по адресу /add-->
+        <form action="/auth/register" method="POST">
+          <div class="input-field"> <!--зададим класс для элемента-->
+            <input id="remail" name="email" type="email" class="validate" required> <!--добавим поле ввода. не может быть пустым-->
+            <label for="remail">Email</label> <!--label для данноо поля-->
+            <!--установим сообщения-подсказки для каждого поля-->
+             <span class="helper-text" data-error="Введите email"</span>
+          </div>
+
+          <div class="input-field"> <!--зададим класс для элемента-->
+            <input id="rpassword" name="password" type="password" class="validate" requiled> <!--добавим поле ввода. не может быть меньше 1-->
+            <label for="rpassword">Пароль</label> <!--label для данноо поля-->
+            <!--установим сообщения-подсказки для каждого поля-->
+             <span class="helper-text" data-error="Введите пароль"</span>
+          </div>
+
+          <div class="input-field"> <!--зададим класс для элемента-->
+            <input id="confirm" name="confirm" type="password" class="validate" requiled> <!--добавим поле ввода. не может быть меньше 1-->
+            <label for="confirm">Введите пароль ещё раз</label> <!--label для данноо поля-->
+            <!--установим сообщения-подсказки для каждого поля-->
+             <span class="helper-text" data-error="Введите пароль"</span>
+          </div>
+
+          <!-- добавим элемент button на форму-->
+          <button class="btn btn-primary type="submit">Зарегистрироваться</button>
+        </form>
+      </div>
+    </div>
+  </div>

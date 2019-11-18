@@ -28,6 +28,7 @@ const userSchema = new Schema({
   }
 })
 
+//создадим метод для добавления курса в корзину
 userSchema.methods.addToCart = function(course) {
   const items = [...this.cart.items];
   const idx = items.findIndex(c => {
@@ -35,18 +36,20 @@ userSchema.methods.addToCart = function(course) {
   })
 
   if(idx >= 0) { //если в корзине уже есть какой-либо курс
-    items[idx].count = items[idx].count + 1;
+    items[idx].count = items[idx].count + 1; //увеличиваем его количество на 1
   } else {
-    items.push({
+    items.push({ //иначе, добавляем курс в корзину
       courseId: course._id,
       count: 1
     })
   }
 
+  //сохраним данные
   this.cart = {items};
   return this.save();
 }
 
+//создадим метод удаления курса из корзины
 userSchema.methods.removeFromCart = function(id) {
   let items = [...this.cart.items];
   const idx = items.findIndex(c => c.courseId.toString() === id.toString());
@@ -57,14 +60,15 @@ userSchema.methods.removeFromCart = function(id) {
     items[idx].count--;
   }
 
+  //сохраним данные
   this.cart = {items}
   return this.save()
 }
 
 //создадим метод для очистки корзины
 userSchema.methods.clearCart = function() {
-  this.cart = {items: []}; //очистим массив
+  this.cart = {items: []}; //очистим массив с курсами
   return this.save(); //сохраним изменения
 }
 
-module.exports = model('User', userSchema);
+module.exports = model('User', userSchema); //экспортируем модель User

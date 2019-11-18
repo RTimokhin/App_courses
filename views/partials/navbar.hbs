@@ -1,42 +1,53 @@
 <!--создадим панель навигации для приложения-->
 <nav>
-    <div class="nav-wrapper">
-      <a href="#" class="brand-logo">Приложение курсов</a>
-      <ul id="nav-mobile" class="right hide-on-med-and-down">
+  <div class="nav-wrapper">
+    <a href="#" class="brand-logo">Приложение курсов</a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
 
-        <!--если свойство isHome в значении true, применим класс active к данному элементу-->
-        {{#if isHome}}
-          <li class="active"><a href="/">Главная</a></li>
-        {{else}}
-          <li><a href="/">Главная</a></li>
-        {{/if}}
+      <!--если свойство isHome в значении true, выделим данный элемент-->
+      {{#if isHome}}
+        <li class="active"><a href="/">Главная</a></li>
+      {{else}}
+        <li><a href="/">Главная</a></li> <!--иначе оставим элемент без выделения-->
+      {{/if}}
 
-        <!--если свойство isCourses в значении true, применим класс active к данному элементу-->
-        {{#if isCourses}}
-          <li class="active"><a href="/courses">Курсы</a></li>
-        {{else}}
-          <li><a href="/courses">Курсы</a></li>
-        {{/if}}
+      <!--если свойство isCourses в значении true, выделим данный элемент-->
+      {{#if isCourses}}
+        <li class="active"><a href="/courses">Курсы</a></li>
+      {{else}}
+        <li><a href="/courses">Курсы</a></li> <!--иначе оставим элемент без выделения-->
+      {{/if}}
 
-        <!--если свойство isAdd в значении true, применим класс active к данному элементу-->
+      {{#if isAuth}} <!--если пользователь залогинен в системе-->
+        <!--и если свойство isAdd в значении true, выделим данный элемент-->
         {{#if isAdd}}
           <li class="active"><a href="/add">Добавить курс</a></li>
         {{else}}
-          <li><a href="/add">Добавить курс</a></li>
+          <li><a href="/add">Добавить курс</a></li> <!--иначе оставим элемент без выделения-->
         {{/if}}
 
+        <!--если свойство isCard в значении true, выделим данный элемент-->
         {{#if isCard}}
           <li class="active"><a href="/card">Корзина</a></li>
         {{else}}
-          <li><a href="/card">Корзина</a></li>
+          <li><a href="/card">Корзина</a></li> <!--иначе оставим элемент без выделения-->
         {{/if}}
 
+        <!--если свойство isOrder в значении true, выделим данный элемент-->
         {{#if isOrder}}
           <li class="active"><a href="/orders">Заказы</a></li>
         {{else}}
-          <li><a href="/orders">Заказы</a></li>
+          <li><a href="/orders">Заказы</a></li> <!--иначе оставим элемент без выделения-->
         {{/if}}
 
-      </ul>
-    </div>
-  </nav>
+        <li><a href="/auth/logout">Выйти</a></li>
+      {{else}}
+        {{#if isLogin}} <!--если свойство isLogin в значении true, выделим данный элемент-->
+          <li class="active"><a href="/auth/login#login">Войти</a></li>
+        {{else}}
+          <li><a href="/auth/login#login">Войти</a></li> <!--иначе оставим элемент без выделения-->
+        {{/if}}
+      {{/if}}
+    </ul>
+  </div>
+</nav>
