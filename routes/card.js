@@ -1,5 +1,6 @@
 const {Router} = require('express'); //подключим фраймворк express
 const Course = require('../models/course'); //подключим модель course
+const auth = require('../middleware/auth');
 const router = Router();
 
 function mapCartItems(cart) {
@@ -17,14 +18,14 @@ function computePrice(courses) {
   }, 0)
 }
 
-router.post('/add', async (req, res) => {
+router.post('/add', auth, async (req, res) => {
   const course = await Course.findById(req.body.id); //получим id курса
   await req.user.addToCart(course);
   res.redirect('/card'); //перенаправим запрос на страницу корзины
 })
 
 //реализуем метод delete
-router.delete('/remove/:id', async (req, res) => {
+router.delete('/remove/:id', auth, async (req, res) => {
   //передадим в метод removeFromCart id курса, который необходимо удалить
   await req.user.removeFromCart(req.params.id);
   const user = await req.user.populate('cart.items.courseId').execPopulate();
@@ -35,7 +36,7 @@ router.delete('/remove/:id', async (req, res) => {
   res.status(200).json(cart);
 })
 
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   const user = await req.user
   //добавим в текущую коллекцию содержимое курса из коллекции cart
     .populate('cart.items.courseId')

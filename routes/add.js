@@ -1,9 +1,10 @@
 const {Router} = require('express'); //подключим фраймворк express
 const Course = require('../models/course'); //подключим модель course
+const auth = require('../middleware/auth');
 const router = Router();
 
 //обработаем get запрос на страницу add
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
   //отобразим данные из шаблона add.hbs на стринице add
   res.render('add', {
     title: 'Добавить',
@@ -12,7 +13,7 @@ router.get('/', (req, res) => {
 })
 
 //обработаем post запрос на страницу add
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   const course = new Course({ //создадим новый объект на основе модели Course
     title: req.body.title,
     price: req.body.price,

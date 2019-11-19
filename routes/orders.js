@@ -1,9 +1,10 @@
 const {Router} = require('express'); //подключим объект Router из фраймворка express;
 const Order = require('../models/order'); //подключим модель order;
+const auth = require('../middleware/auth');
 const router = Router();
 
 //напишем обработчик для запроса get
-router.get('/', async (req, res) => {
+router.get('/', auth, async (req, res) => {
   try {
     //получим список всех заказов, относящихся к нужному пользователю
     const orders = await Order.find({'user.userId': req.user._id})
@@ -25,7 +26,7 @@ router.get('/', async (req, res) => {
   }
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
   try {
     //получим все данные, которые находятся в корзине
     const user = await req.user //и добавим их в объект user
