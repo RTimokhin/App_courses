@@ -7,7 +7,9 @@ const router = Router();
 router.get('/login', async (req, res) => {
   res.render('auth/login', { //отобразим шаблон login из папки auth
     title: 'Авторизация', //зададим заголовок страницы
-    isLogin: true //установим флаг isLogin в значение true
+    isLogin: true, //установим флаг isLogin в значение true
+    loginError: req.flash('loginError'), //передадим данные об ошибке
+    registerError: req.flash('registerError') //передадим данные об ошибке
   })
 })
 
@@ -35,9 +37,13 @@ router.post('/login', async (req, res) => {
           }
           res.redirect('/'); //перенаправим запрос на главную страницу
         })
+      } else {
+        req.flash('loginError', 'Неверный пароль');
+        res.redirect('/auth/login#login'); //иначе, перенаправим запрос на страницу аутентификации
       }
     } else {
-      res.redirect('/auth/login#login'); //иначе, перенаправим запрос на страницу аутентификации
+      req.flash('loginError', 'Такого пользователя не существует');
+      res.redirect('/auth/login#login');
     }
   } catch(err) {
     console.log(err);
@@ -52,6 +58,7 @@ router.post('/register', async (req, res) => {
     //присвоим переменной candidate результат поиска в модели User пользователя с данным email
     const candidate = await User.findOne({email});
     if(candidate) { //если пользователь с данным email существует
+      req.flash('registerError', 'Пользователь с данным email уже существует'); //выведем сообщение об ошибке
       res.redirect('/auth/login#register'); //перенаправим запрос на страницу регистрации
     } else {
       const hashPassword = await bcrypt.hash(password, 10); //зашифруем пароль с помощью bcrypt

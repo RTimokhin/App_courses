@@ -7,6 +7,11 @@
         </ul>
       </div>
         <div id="login" class="col s6 offset-s3">
+
+          {{#if loginError}} <!--если есть ошибка-->
+            <p class="alert">{{error}}</p> <!--выведем текст ошибки-->
+          {{/if}}
+
           <h1>Войти в магазин</h1>
           <!--После отправки данные с формы будут уходить по адресу /add-->
           <form action="/auth/login" method="POST">
@@ -31,6 +36,11 @@
           </form>
         </div>
       <div id="register" class="col s6 offset-s3">
+
+        {{#if registerError}} <!--если есть ошибка-->
+          <p class="alert">{{error}}</p> <!--выведем текст ошибки-->
+        {{/if}}
+
         <h1>Создать аккаунт</h1>
         <!--После отправки данные с формы будут уходить по адресу /add-->
         <form action="/auth/register" method="POST">

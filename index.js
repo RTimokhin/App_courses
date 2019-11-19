@@ -1,6 +1,7 @@
 const express = require('express'); //подключим пакет express
 const path = require('path'); //подключим модуль для работы с путями
 const csrf = require('csurf'); //подключим модуль для генерации токена
+const flash = require('connect-flash'); //подключим модуль для вывода одноразовых сообщений
 const mongoose = require('mongoose'); //подключим библиотеку для взаимодействия с mongoDB
 const session = require('express-session'); //подключим пакет, отвечающий за сессии
 const MongoStore = require('connect-mongodb-session')(session); //подключим класс MongoStore
@@ -45,6 +46,7 @@ app.use(session({ //настроим конфигурацию сессии
   store: store
 }))
 app.use(csrf());
+app.use(flash());
 app.use(varMiddleware);
 app.use(userMiddleware);
 
