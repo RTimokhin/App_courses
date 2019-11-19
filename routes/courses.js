@@ -1,5 +1,6 @@
 const {Router} = require('express'); //подключим фраймворк express
 const Course = require('../models/course'); //импортируем модель Course
+const auth = require('../middleware/auth'); //подключим модуль для проверки аутентификации
 const router = Router();
 
 //обработаем get запрос на страницу courses

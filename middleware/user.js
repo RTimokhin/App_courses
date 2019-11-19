@@ -1,4 +1,4 @@
-mconst User = require('../models/user'); //экспортируем модель User
+const User = require('../models/user'); //экспортируем модель User
 
 //создадим и экспортируем middleware
 module.exports = async function(req, res, next) { //

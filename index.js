@@ -59,12 +59,11 @@ const PORT = process.env.PORT || 2000; //по умолчанию значени�
 //создадим функция для подключения к БД mongoDB и запуска приложения
 async function start() {
   try {
-    const url = 'mongodb+srv://sygo88:web456258$@cluster0-h7mvl.mongodb.net/shop'; //url для соединения с mondoDB
     await mongoose.connect(MONGODB_URI, {
       useFindAndModify: false,
       useUnifiedTopology: true,
       useNewUrlParser: true
-
+    })
     app.listen(PORT, () => { //слушаем нужный порт
       //если сервер запущен, вызывается callback ф-ия, выводящая сообщение в консоль
       console.log(`Server is running on port ${PORT}`);
