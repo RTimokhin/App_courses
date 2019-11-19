@@ -12,6 +12,7 @@ const coursesRoutes = require('./routes/courses'); //подключим моду
 const authRoutes = require('./routes/auth'); //подключим модуль маршрутизации auth из папки routes
 const User = require('./models/user'); //подключим модель user
 const varMiddleware = require('./middleware/variables'); //подключим модуль для проверки авторизации
+const userMiddleware = require('./middleware/user'); //подключим модуль для получения данных об авторизованном пользователе
 
 const MONGODB_URI = 'mongodb+srv://sygo88:web456258$@cluster0-h7mvl.mongodb.net/shop'; //url для соединения с mondoDB
 const app = express(); //создадим объект, представляющий приложение
@@ -43,6 +44,7 @@ app.use(session({ //настроим конфигурацию сессии
   store: store
 }))
 app.use(varMiddleware); //включим проверку авторизации
+app.use(userMiddleware);
 
 //зарегистрируем роутеры в приложении
 app.use('/', homeRoutes);
