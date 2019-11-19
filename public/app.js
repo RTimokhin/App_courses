@@ -34,10 +34,14 @@ if($card) { //если элемент с данным селектором су�
     //если у элемента, по которому был совершен клик присутствует класс js-remove
     if(event.target.classList.contains('js-remove')) {
       const id = event.target.dataset.id; //получим id курса, который был удален из корзины
+      const csrf = event.target.dataset.csrf;
 
       //создадим метод fetch
       fetch('/card/remove' + id, { //укажем путь, по которому будет совершен запрос
         method: 'delete' //http метод delete
+        headrers: {
+          'X-XSRF-TOKEN': csrf
+        }
       }).then(res => res.json()) //вернём ответ в формате JSON
         .then(card => {
           if(card.courses.length) {

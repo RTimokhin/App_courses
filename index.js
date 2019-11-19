@@ -1,5 +1,6 @@
 const express = require('express'); //подключим пакет express
 const path = require('path'); //подключим модуль для работы с путями
+const csrf = require('csurf'); //подключим модуль для генерации токена
 const mongoose = require('mongoose'); //подключим библиотеку для взаимодействия с mongoDB
 const session = require('express-session'); //подключим пакет, отвечающий за сессии
 const MongoStore = require('connect-mongodb-session')(session); //подключим класс MongoStore
@@ -43,7 +44,8 @@ app.use(session({ //настроим конфигурацию сессии
   saveUnitialized: false,
   store: store
 }))
-app.use(varMiddleware); //включим проверку авторизации
+app.use(csrf());
+app.use(varMiddleware);
 app.use(userMiddleware);
 
 //зарегистрируем роутеры в приложении

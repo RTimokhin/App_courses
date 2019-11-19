@@ -17,6 +17,7 @@
         {{#if @root.isAuth}} <!--выходим из цикла, чтобы получить доступ к корневым элементам-->
         <a href="/courses/{{id}}/edit?allow=true">Редактировать</a> <!--добавляем query параметр-->
         <form action="/card/add" method="POST"> <!--добавим форму для покупки курса-->
+          <input type="hidden" name="_csrf" value="{{@root.csrf}}">
           <input type="hidden" name="id" value="{{id}}"> <!--скрытое поле, содержащее идентификатор курса-->
           <button type="submit" class="btn btn-primary">Купить</button> <!--кнопка купить курс-->
         </form>

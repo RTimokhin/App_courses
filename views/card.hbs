@@ -17,7 +17,11 @@
         <td>{{title}}</td> <!--название курса-->
         <td>{{count}}</td> <!--количество-->
         <!--кнопка удаления курсов из корзины-->
-        <td><button class="btn btm-small js-remove" data-id="{{id}}">Удалить</button></td>
+        <td><button
+           class="btn btm-small js-remove"
+           data-id="{{id}}"
+           data-csrf="{{@root.csrf}}"
+           >Удалить</button></td>
       </tr>
       {{/each}}
     </tbody>
@@ -28,6 +32,7 @@
 
   <!--создадим форму с кнопкой для регистрации заказа-->
   <form actions="/orders" method="POST">
+    <input type="hidden" name="_csrf" value="{{csrf}}">
     <button type="submit" class="btn">Сделать заказ</button>
   </form>
 {{else}} <!--если в корзине нет курсов, выведем на страницу контент-->
