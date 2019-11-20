@@ -15,8 +15,8 @@ const authRoutes = require('./routes/auth'); //подключим модуль �
 const User = require('./models/user'); //подключим модель user
 const varMiddleware = require('./middleware/variables'); //подключим модуль для проверки авторизации
 const userMiddleware = require('./middleware/user'); //подключим модуль для получения данных об авторизованном пользователе
+const keys = require('./keys'); //подключим модуль, где хранятся ключи
 
-const MONGODB_URI = 'mongodb+srv://sygo88:web456258$@cluster0-h7mvl.mongodb.net/shop'; //url для соединения с mondoDB
 const app = express(); //создадим объект, представляющий приложение
 
 //сконфигурируем handlebars
@@ -27,7 +27,7 @@ const hbs = exphbs.create({
 
 const store = new MongoStore({
   collection: 'session',
-  uri: MONGODB_URI
+  uri: keys.MONGODB_URI
 })
 
 app.engine('hbs', hbs.engine); //зарегистрируем в express движок handlebars
@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //сделаем пап
 app.use(express.urlencoded({extended: true})); //преобразуем входящий запрос в формат JSON
 
 app.use(session({ //настроим конфигурацию сессии
-  secret: 'some secret value', //строка для шифровки данных
+  secret: keys.SESSION_SECRET, //строка для шифровки данных
   resalve: false,
   saveUnitialized: false,
   store: store
@@ -63,7 +63,7 @@ const PORT = process.env.PORT || 2000; //по умолчанию значени�
 //создадим функция для подключения к БД mongoDB и запуска приложения
 async function start() {
   try {
-    await mongoose.connect(MONGODB_URI, {
+    await mongoose.connect(keys.MONGODB_URI, {
       useFindAndModify: false,
       useUnifiedTopology: true,
       useNewUrlParser: true

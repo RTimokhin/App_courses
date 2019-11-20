@@ -1,7 +1,15 @@
 const {Router} = require('express');
 const bcrypt = require('bcryptjs'); //подключим модуль для шифрования данных
+const nodemailer = require('nodemailer');
+const sendGrid = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');
+const keys - require('../keys');
+const regEmail = require('../emails/registration');
 const router = Router();
+
+const transporter = nodemailer.createTransport(sendGrid({
+  auth: {api_key: keys.SENDGRID_API_KEY}
+}))
 
 //создадим обработчик для get запроса по маршруту /login
 router.get('/login', async (req, res) => {
@@ -67,6 +75,7 @@ router.post('/register', async (req, res) => {
       })
       await user.save(); //дождемся сохранения данных
       res.redirect('/auth/login#login'); //перенаправим запрос на
+      await transporter.sendMail(regEmail(email)); //отправим пользователю письмо с подтверждением регистрации
     }
   } catch(err) {
     console.log(err);
