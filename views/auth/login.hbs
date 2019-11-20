@@ -9,11 +9,11 @@
         <div id="login" class="col s6 offset-s3">
 
           {{#if loginError}} <!--если есть ошибка-->
-            <p class="alert">{{error}}</p> <!--выведем текст ошибки-->
+            <p class="alert">{{error}}</p> <!--выведем оповещение с ошибкой-->
           {{/if}}
 
           <h1>Войти в магазин</h1>
-          <!--После отправки данные с формы будут уходить по адресу /add-->
+          <!--Создадим форму для отправки данных-->
           <form action="/auth/login" method="POST">
             <div class="input-field"> <!--зададим класс для элемента-->
               <input id="email" name="email" type="email" class="validate" required> <!--добавим поле ввода. не может быть пустым-->
@@ -30,6 +30,8 @@
             </div>
 
             <input type="hidden" name="_csrf" value="{{csrf}}">
+
+            <p><a href="/auth/reset">Забыли пароль?</a></p>
 
             <!-- добавим элемент button на форму-->
             <button class="btn btn-primary" type="submit">Войти</button>
