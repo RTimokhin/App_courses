@@ -22,7 +22,8 @@ const app = express(); //создадим объект, представляющ
 //сконфигурируем handlebars
 const hbs = exphbs.create({
   defaultLayout: 'main', //зададим layout по умолчанию
-  extname: 'hbs' //зададим псевдоним
+  extname: 'hbs', //зададим псевдоним
+  helpers: require('./utils/hbs-helpers')
 })
 
 const store = new MongoStore({
@@ -41,10 +42,11 @@ app.use(express.urlencoded({extended: true})); //преобразуем вход
 
 app.use(session({ //настроим конфигурацию сессии
   secret: keys.SESSION_SECRET, //строка для шифровки данных
-  resalve: false,
-  saveUnitialized: false,
-  store: store
+  resave: false,
+  saveUninitialized: false,
+  store
 }))
+
 app.use(csrf());
 app.use(flash());
 app.use(varMiddleware);

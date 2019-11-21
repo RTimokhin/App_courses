@@ -3,13 +3,13 @@
 }
 
 .price {
-  font-size: 2;
+  font-size: 2rem;
 }
 
 .course {
   width: 100%;
   display: flex;
-  flex-directions: column;
+  flex-direction: column;
   align-items: center;
 }
 
@@ -26,7 +26,7 @@
   font-size: 2.5rem;
 }
 
-.card-actions.actions {
+.card-action.actions {
   display: flex;
   align-items: center;
   justify-content: space-between;

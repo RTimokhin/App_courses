@@ -1,7 +1,0 @@
-<!--используем partials head-->
-{{> head}}
-<body>
-{{{body}}}
-{{> footer}}
-</body>
-</html>
