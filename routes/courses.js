@@ -1,6 +1,8 @@
 const {Router} = require('express'); //подключим фраймворк express
+const {validationResult} = require('express-validators/check');
 const Course = require('../models/course'); //импортируем модель Course
 const auth = require('../middleware/auth'); //подключим модуль для проверки аутентификации
+const {courseValidators} = require('../utils/validators');
 const router = Router();
 
 //создадим проверку на совпадение идентификатора автора курса и текущего пользователя
@@ -46,7 +48,21 @@ router.get('/:id/edit', auth, async (req, res) => {
 })
 
 //создадим обработчик для post запроса на странице /edit
-router.post('/edit', auth, async (req, res) => {
+router.post('/edit', auth, courseValidators, async (req, res) => {
+  const errors = validationResult(req);
+  if(!errors.isEmpty()) {
+    return res.status(422).render('add', {
+      title: `Редактировать ${course.tittle}`,
+      isAdd: true,
+      error: error.array()[0].msg,
+      data: {
+        title: req.body.title,
+        price: req.body.price,
+        img: req.body.img
+      }
+    })
+  }
+
   try {
     const {id} = req.body;
     delete req.body.id;
@@ -62,7 +78,7 @@ router.post('/edit', auth, async (req, res) => {
   }
 })
 
-router.post('/remove', auth, async (req, res) => {
+router.post('/remove', auth, courseValidators, async (req, res) => {
   try {
     await Course.deleteOne({
       _id: req.body.id,

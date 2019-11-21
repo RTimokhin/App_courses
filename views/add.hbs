@@ -1,23 +1,27 @@
 <h1>Добавить новый курс</h1>
 
+{{#if error}}
+  <p class="alert">{{error}}</p>
+{{/if}}
+
 <!--После отправки данные с формы будут уходить по адресу /add-->
 <form action="/add" method="POST">
   <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="title" name="title" type="text" class="validate" required> <!--добавим поле ввода. не может быть пустым-->
+    <input id="title" name="title" type="text" class="validate" required value="{{data.title}}"> <!--добавим поле ввода. не может быть пустым-->
     <label for="title">Навание курса</label> <!--label для данноо поля-->
     <!--установим сообщения-подсказки для каждого поля-->
      <span class="helper-text" data-error="Введите название для курса"</span>
   </div>
 
   <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="price" name="price" type="number" class="validate" requiled min="1"> <!--добавим поле ввода. не может быть меньше 1-->
+    <input id="price" name="price" type="number" class="validate" requiled min="1" value="{{data.price}}"> <!--добавим поле ввода. не может быть меньше 1-->
     <label for="price">Стоимость курса</label> <!--label для данноо поля-->
     <!--установим сообщения-подсказки для каждого поля-->
      <span class="helper-text" data-error="Введите стоимость курса"</span>
   </div>
 
   <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="img" name="img" type="text" class="validate" required> <!--добавим поле ввода. не может быть пустым-->
+    <input id="img" name="img" type="text" class="validate" required value="{{data.img}}"> <!--добавим поле ввода. не может быть пустым-->
     <label for="img">URL изображения</label> <!--label для данноо поля-->
     <!--установим сообщения-подсказки для каждого поля-->
      <span class="helper-text" data-error="Введите URL изображения"</span>

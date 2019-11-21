@@ -1,12 +1,14 @@
 const {Router} = require('express');
 const bcrypt = require('bcryptjs'); //подключим модуль для шифрования паролей пользователей
 const crypto = require('crypto'); //подключим модуль для шифрования данных
+const {validationResult} = require('express-validator/check');
 const nodemailer = require('nodemailer');
 const sendGrid = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');
 const keys = require('../keys')
 const regEmail = require('../emails/registration');
 const resetEmail = require('../emails/reset');
+const {registerValidators} = require('../utils/validators');
 const router = Router();
 
 const transporter = nodemailer.createTransport(sendGrid({
@@ -61,16 +63,17 @@ router.post('/login', async (req, res) => {
 })
 
 //добавим обработчик для post запроса по маршруту /register
-router.post('/register', async (req, res) => {
+//вначале проверим отвечают ли данные, введённые в поле email необходимым условиям
+router.post('/register', registerValidators, async (req, res) => {
   try {
     //заберем необходимые поля из объекта req.body
-    const {email, password, repeat, name} = req.body;
-    //присвоим переменной candidate результат поиска в модели User пользователя с данным email
-    const candidate = await User.findOne({email});
-    if(candidate) { //если пользователь с данным email существует
-      req.flash('registerError', 'Пользователь с данным email уже существует'); //выведем сообщение об ошибке
-      res.redirect('/auth/login#register'); //перенаправим запрос на страницу регистрации
-    } else {
+    const {email, password, name} = req.body;
+    const errors = validationResult(req); //получим имеющиеся ошибки валидации
+    if(!errors.isEmpty()) {  //если есть ошибки
+      req.flash('registerError', errors.array()[0].msg); //выведем сообщение
+      //зададим статус для ответа и перенаправим запрос на другую страницу
+      return res.status(422).redirect('/auth/login#register');
+    }
       const hashPassword = await bcrypt.hash(password, 10); //зашифруем пароль с помощью bcrypt
       const user = new User({ //иначе, создадим нового пользователя
         email, name, password: hashPassword, cart: {items: []}
@@ -78,7 +81,6 @@ router.post('/register', async (req, res) => {
       await user.save(); //дождемся сохранения данных
       res.redirect('/auth/login#login'); //перенаправим запрос на
       await transporter.sendMail(regEmail(email)); //отправим пользователю письмо с подтверждением регистрации
-    }
   } catch(err) {
     console.log(err);
   }
