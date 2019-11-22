@@ -6,15 +6,17 @@ const mongoose = require('mongoose'); //подключим библиотеку 
 const session = require('express-session'); //подключим пакет, отвечающий за сессии
 const MongoStore = require('connect-mongodb-session')(session); //подключим класс MongoStore
 const exphbs = require('express-handlebars'); //поключим шаблонизатор handlebars
-const homeRoutes = require('./routes/home'); //подключим модуль маршрутизации home из папки routes
-const addRoutes = require('./routes/add'); //подключим модуль маршрутизации add из папки routes
-const cardRoutes = require('./routes/card'); //подключим модуль маршрутизации card из папки routes
-const ordersRoutes = require('./routes/orders'); //подключим модуль маршрутизации orders из папки routes
-const coursesRoutes = require('./routes/courses'); //подключим модуль маршрутизации courses из папки routes
-const authRoutes = require('./routes/auth'); //подключим модуль маршрутизации auth из папки routes
+const homeRoutes = require('./routes/home'); //подключим модуль маршрутизации home
+const addRoutes = require('./routes/add'); //подключим модуль маршрутизации add
+const cardRoutes = require('./routes/card'); //подключим модуль маршрутизации card
+const ordersRoutes = require('./routes/orders'); //подключим модуль маршрутизации orders
+const coursesRoutes = require('./routes/courses'); //подключим модуль маршрутизации courses
+const authRoutes = require('./routes/auth'); //подключим модуль маршрутизации auth
+const profileRoutes = require('./routes/profile'); //подключим модуль маршрутизации profile
 const User = require('./models/user'); //подключим модель user
 const varMiddleware = require('./middleware/variables'); //подключим модуль для проверки авторизации
 const userMiddleware = require('./middleware/user'); //подключим модуль для получения данных об авторизованном пользователе
+const errorHandler = require('./middleware/error'); //подключим модуль для обработки 404 ошибки
 const keys = require('./keys'); //подключим модуль, где хранятся ключи
 
 const app = express(); //создадим объект, представляющий приложение
@@ -59,6 +61,9 @@ app.use('/courses', coursesRoutes);
 app.use('/card', cardRoutes);
 app.use('/orders', ordersRoutes);
 app.use('/auth', authRoutes);
+app.use('/profile', profileRoutes);
+
+app.use('/error', errorHandler); //подключим модуль errorHandler
 
 const PORT = process.env.PORT || 2000; //по умолчанию значение порта 2000
 

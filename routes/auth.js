@@ -1,7 +1,7 @@
 const {Router} = require('express');
 const bcrypt = require('bcryptjs'); //подключим модуль для шифрования паролей пользователей
 const crypto = require('crypto'); //подключим модуль для шифрования данных
-const {validationResult} = require('express-validator/check');
+const {validationResult} = require('express-validator');
 const nodemailer = require('nodemailer');
 const sendGrid = require('nodemailer-sendgrid-transport');
 const User = require('../models/user');

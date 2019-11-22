@@ -1,8 +1,8 @@
 const {Router} = require('express'); //подключим фраймворк express
-const {validationResult} = require('express-validators/check');
+const {validationResult} = require('express-validator');
 const Course = require('../models/course'); //подключим модель course
 const auth = require('../middleware/auth');
-const {courseValidators} = require('../utils/validatos');
+const {courseValidators} = require('../utils/validators');
 const router = Router();
 
 //обработаем get запрос на страницу add

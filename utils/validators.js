@@ -1,4 +1,4 @@
-const {body} = require('express-validator/check');
+const {body} = require('express-validator');
 const User = require('../models/user');
 //проверим введённые данные на соответствие необходимым условиям валидации
 exports.registerValidators = [
@@ -27,7 +27,7 @@ exports.registerValidators = [
   })
   .trim(),
   //зададим условия валидации дяя поля name
-  body('name').isLength({min: 3}.withMessage('Имя должно состоять из минимум 3 символов'))
+  body('name').isLength({min: 3}).withMessage('Имя должно состоять из минимум 3 символов')
   .trim()
 ]
 

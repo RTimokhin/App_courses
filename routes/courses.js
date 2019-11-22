@@ -1,5 +1,5 @@
 const {Router} = require('express'); //подключим фраймворк express
-const {validationResult} = require('express-validators/check');
+const {validationResult} = require('express-validator');
 const Course = require('../models/course'); //импортируем модель Course
 const auth = require('../middleware/auth'); //подключим модуль для проверки аутентификации
 const {courseValidators} = require('../utils/validators');
@@ -50,21 +50,12 @@ router.get('/:id/edit', auth, async (req, res) => {
 //создадим обработчик для post запроса на странице /edit
 router.post('/edit', auth, courseValidators, async (req, res) => {
   const errors = validationResult(req);
+  const {id} = req.body;
   if(!errors.isEmpty()) {
-    return res.status(422).render('add', {
-      title: `Редактировать ${course.tittle}`,
-      isAdd: true,
-      error: error.array()[0].msg,
-      data: {
-        title: req.body.title,
-        price: req.body.price,
-        img: req.body.img
-      }
-    })
+    return res.status(422).redirect(`/courses/${id}/edit?allow=true`);
   }
 
   try {
-    const {id} = req.body;
     delete req.body.id;
     const course = await Course.findById(id);
     if(!isOwner(course, req)) {
