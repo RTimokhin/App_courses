@@ -3,6 +3,8 @@ const path = require('path'); //подключим модуль для рабо�
 const csrf = require('csurf'); //подключим модуль для генерации токена
 const flash = require('connect-flash'); //подключим модуль для вывода одноразовых сообщений
 const mongoose = require('mongoose'); //подключим библиотеку для взаимодействия с mongoDB
+const helmet = require('helmet'); //подключим модуль для дополнительной защиты приложения
+const compression = require('compression'); //подключим модуль для сжатия статических файлов
 const session = require('express-session'); //подключим пакет, отвечающий за сессии
 const MongoStore = require('connect-mongodb-session')(session); //подключим класс MongoStore
 const exphbs = require('express-handlebars'); //поключим шаблонизатор handlebars
@@ -17,6 +19,7 @@ const User = require('./models/user'); //подключим модель user
 const varMiddleware = require('./middleware/variables'); //подключим модуль для проверки авторизации
 const userMiddleware = require('./middleware/user'); //подключим модуль для получения данных об авторизованном пользователе
 const errorHandler = require('./middleware/error'); //подключим модуль для обработки 404 ошибки
+const fileMiddleware = require('./middleware/file'); //подключим модуль для обработки загружаемых файлов
 const keys = require('./keys'); //подключим модуль, где хранятся ключи
 
 const app = express(); //создадим объект, представляющий приложение
@@ -40,6 +43,8 @@ app.set('views', 'views'); //название папки, где будут хр
 app.use(express.static(path.join(__dirname, 'public'))); //сделаем папку public статической
 //теперь express при подгрузке страниц с адресом / обращается к папке public
 
+app.use('/images', express.static(path.join(__dirname, 'images'))); //сделаем папку images статической
+
 app.use(express.urlencoded({extended: true})); //преобразуем входящий запрос в формат JSON
 
 app.use(session({ //настроим конфигурацию сессии
@@ -49,8 +54,11 @@ app.use(session({ //настроим конфигурацию сессии
   store
 }))
 
+app.use(fileMiddleware.single('avatar')); //загружаемые файлы будут сохраняться в поле avatar
 app.use(csrf());
 app.use(flash());
+app.use(helmet());
+app.use(compression());
 app.use(varMiddleware);
 app.use(userMiddleware);
 

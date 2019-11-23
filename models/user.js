@@ -15,6 +15,7 @@ const userSchema = new Schema({
     type: String, //тип данных строка
     required: true //поле не должно быть пустым
   },
+  avatarUrl: String,
   resetToken: String,
   resetTokenExp: Date,
   cart: { //определим структуру данных для объекта cart

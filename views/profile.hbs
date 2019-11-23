@@ -2,19 +2,24 @@
 
 <div class="row">
   <div class="col s6">
+    {{#if user.avatarUrl}} <!--если есть ссылка на изображение, выведем его-->
+    <!--укажем абсолютный путь для изображения с помощью /-->
     <img
       class="avatar"
-      src=""
-      alt=""
-
-    <p>Аватара нет</p>
+      src="/{{user.avatarUrl}}"
+      alt="{{avatar-{{user.name}}"
+    >
+    {{else}} <!--иначе, выведем текст-->
+      <p>Аватара нет</p>
+    {{/if}}
   </div>
 
   <div class="col s6">
-    <form action="/profile" method="POST">
+    <form action="/profile" method="POST" enctype="multipart/form-data"> <!--укажем, что форма отправляет файлы-->
       <p>Ваш email: <strong>{{user.email}}</strong></p>
       <div class="input-field"> <!--зададим класс для элемента-->
-        <input id="name" name="name" type="text" class="validate" required value="{{user.name}}"> <!--добавим поле ввода. не может быть пустым-->
+         <!--добавим поле ввода, которое не может быть пустым-->
+        <input id="name" name="name" type="text" class="validate" required value="{{user.name}}">
         <label for="name">Ваше имя</label> <!--label для данноо поля-->
         <!--установим сообщения-подсказки для каждого поля-->
         <span class="helper-text" data-error="Имя не может быть пустым"</span>
