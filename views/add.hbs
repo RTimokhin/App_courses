@@ -4,31 +4,26 @@
   <p class="alert">{{error}}</p>
 {{/if}}
 
-<!--После отправки данные с формы будут уходить по адресу /add-->
-<form action="/add" method="POST">
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="title" name="title" type="text" class="validate" required value="{{data.title}}"> <!--добавим поле ввода. не может быть пустым-->
-    <label for="title">Навание курса</label> <!--label для данноо поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите название для курса"</span>
+<form action="/add" method="POST" novalidate>
+  <div class="input-field">
+    <input id="title" name="title" type="text" class="validate" required value="{{data.title}}">
+    <label for="title">Название курса</label>
+    <span class="helper-text" data-error="Введите название"></span>
   </div>
 
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="price" name="price" type="number" class="validate" requiled min="1" value="{{data.price}}"> <!--добавим поле ввода. не может быть меньше 1-->
-    <label for="price">Стоимость курса</label> <!--label для данноо поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите стоимость курса"</span>
+  <div class="input-field">
+    <input id="price" name="price" type="number" class="validate" required min="1" value="{{data.price}}">
+    <label for="price">Цена курса</label>
+    <span class="helper-text" data-error="Введите цену"></span>
   </div>
 
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="img" name="img" type="text" class="validate" required value="{{data.img}}"> <!--добавим поле ввода. не может быть пустым-->
-    <label for="img">URL изображения</label> <!--label для данноо поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите URL изображения"</span>
+  <div class="input-field">
+    <input id="img" name="img" type="text" class="validate" required value="{{data.img}}">
+    <label for="img">URL картинки</label>
+    <span class="helper-text" data-error="Введите url картинки"></span>
   </div>
 
   <input type="hidden" name="_csrf" value="{{csrf}}">
 
-  <!-- добавим элемент button на форму-->
   <button class="btn btn-primary">Добавить курс</button>
 </form>

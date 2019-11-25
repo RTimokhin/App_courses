@@ -3,7 +3,7 @@ const {Schema, model} = require('mongoose');
 
 //создадим новую схему данных для коллекции course
 const courseSchema = new Schema({
-  title: { //определим структуру данных для объекта title
+  title: { //определим структуру данных для объекта titl
     type: String, //тип данных строка
     required: true //поле обязательное для создания модели
   },
@@ -28,4 +28,5 @@ courseSchema.method('toClient', function() {
   return course; //вернем курс
 })
 
-module.exports = model('Course', courseSchema); //создадим и экспортируем модель Course на основе схемы course
+//создадим и экспортируем модель Course на основе схемы course
+module.exports = model('Course', courseSchema);

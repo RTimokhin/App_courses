@@ -22,28 +22,30 @@ router.get('/', async (req, res) => {
       userId: req.user ? req.user._id.toString() : null,
       courses: courses
     })
-  } catch(err) {
-    consule.log(err);
+  } catch (e) {
+    console.log(e);
   }
 })
 
 //создадим обработчик для маршрута /:id/edit
 router.get('/:id/edit', auth, async (req, res) => {
-  if(!req.query.allow) { //если query параметра, отвечающего за редактирование курса нет
-    return res.redirect('/'); //то перенаправим запрос на главную страницу
+  if (!req.query.allow) {  //если query параметра, отвечающего за редактирование курса нет
+    return res.redirect('/'); //перенаправим запрос на главную страницу
   }
+
   try {
-    const course = await Course.findById(req.param.id); //получим id курса
+    const course = await Course.findById(req.params.id); //получим id курса
     //если идентификатор автора курса не совпадает с идетификатором текущего пользователя
-    if(!isOwner(course, req)) {
-      return res.redirect('/courses'); //перенаправим запрос на страницу /courses
+    if (!isOwner(course, req)) {
+      return res.redirect('/courses');  //перенаправим запрос на страницу /courses
     }
-    res.render('course-edit', { //отобразим данные на странице course-edit
+
+    res.render('course-edit', {  //отобразим данные на странице course-edit
       title: `Редактировать ${course.title}`,
       course: course
     })
-  } catch(err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
   }
 })
 
@@ -51,33 +53,34 @@ router.get('/:id/edit', auth, async (req, res) => {
 router.post('/edit', auth, courseValidators, async (req, res) => {
   const errors = validationResult(req);
   const {id} = req.body;
-  if(!errors.isEmpty()) {
+
+  if (!errors.isEmpty()) {
     return res.status(422).redirect(`/courses/${id}/edit?allow=true`);
   }
 
   try {
     delete req.body.id;
     const course = await Course.findById(id);
-    if(!isOwner(course, req)) {
+    if (!isOwner(course, req)) {
       return res.redirect('/courses');
     }
-    Object.assign(course, req.body); //заменим определенные поля
+    Object.assign(course, req.body);  //заменим определенные поля
     await course.save(); //сохраним данные
     res.redirect('/courses');
-  } catch(err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
   }
 })
 
-router.post('/remove', auth, courseValidators, async (req, res) => {
+router.post('/remove', auth, async (req, res) => {
   try {
     await Course.deleteOne({
       _id: req.body.id,
       userId: req.user._id
-    });
+    })
     res.redirect('/courses');
-  } catch(err) {
-  console.log(err);
+  } catch (e) {
+    console.log(e);
   }
 })
 
@@ -89,9 +92,9 @@ router.get('/:id', async (req, res) => {
       title: `Курс ${course.title}`,
       course
     })
-  } catch(err) {
-    console.log(err);
+  } catch (e) {
+    console.log(e);
   }
 })
 
-module.exports = router; //экспортируем данный роут
+module.exports = router;  //экспортируем данный обработчик

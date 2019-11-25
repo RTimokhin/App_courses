@@ -9,7 +9,7 @@
             <span class="card-title">
               Заказ <small>{{_id}}</small> <!--доавим id заказа-->
             </span>
-            <p>{{date}}</p> <!--добавим дату заказа-->
+            <p class="date">{{date}}</p> <!--добавим дату заказа-->
             <!--добавим имя пользователя и email-->
             <p><em>{{user.userId.name}}</em> ({{user.userId.email}})</p>
 
@@ -24,7 +24,7 @@
 
             <hr>
             <!--выведем сумму заказа-->
-            <p>Сумма: <span class="price">{{price}}</span></p>
+            <p>Цену: <span class="price">{{price}}</span></p>
           </div>
         </div>
       </div>

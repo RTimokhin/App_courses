@@ -1,10 +1,10 @@
-const {Schema, model} = require('mongoose'); //подключим объекты(?) schema и model из пакета mongoose
+const {Schema, model} = require('mongoose');  //подключим элементы schema и model из пакета mongoose
 
 //определим метаданные для модели
 const orderSchema = new Schema({
   courses: [
     {
-      course: { //определим структуру данных для объекта course (??)
+      course: {  //определим структуру данных для объекта course
         type: Object, //тип данных объект
         required: true //не должно быть пустым
       },
@@ -17,7 +17,7 @@ const orderSchema = new Schema({
   user: { //определим структуру данных для объекта user
     name: String, //тип данных строка
     userId: {
-      type: Schema.Types.ObjectId, //
+      type: Schema.Types.ObjectId,
       ref: 'User', //будет использоваться в User
       required: true //не должно быть пустым
     }

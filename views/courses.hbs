@@ -16,15 +16,15 @@
         <a href="/courses/{{id}}" target="_blank">Открыть курс</a>
         {{#if @root.isAuth}} <!--выходим из цикла, чтобы получить доступ к корневым элементам-->
 
-        {{#ifeq userId._id @root.userId}}
-          <a href="/courses/{{id}}/edit?allow=true">Редактировать</a> <!--добавляем query параметр-->
-        {{/ifeq}}
+          {{#ifeq userId._id @root.userId}}
+            <a href="/courses/{{id}}/edit?allow=true">Редактировать</a> <!--добавляем query параметр-->
+          {{/ifeq}}
 
-        <form action="/card/add" method="POST"> <!--добавим форму для покупки курса-->
-          <input type="hidden" name="_csrf" value="{{@root.csrf}}">
-          <input type="hidden" name="id" value="{{id}}"> <!--скрытое поле, содержащее идентификатор курса-->
-          <button type="submit" class="btn btn-primary">Купить</button> <!--кнопка купить курс-->
-        </form>
+          <form action="/card/add" method="POST"> <!--добавим форму для покупки курса-->
+            <input type="hidden" name="_csrf" value="{{@root.csrf}}">
+            <input type="hidden" name="id" value="{{id}}"> <!--скрытое поле, содержащее идентификатор курса-->
+            <button type="submit" class="btn btn-primary">Купить</button> <!--кнопка купить курс-->
+          </form>
         {{/if}}
       </div>
     </div>
@@ -32,5 +32,5 @@
 </div>
 {{/each}}
 {{else}}
-<p>Доступных курсов нет</p>
+<p>Курсов пока нет</p>
 {{/if}}

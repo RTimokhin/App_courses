@@ -1,37 +1,32 @@
-<h1>Редактироватьй {{course.title}}</h1>
+<h1>Редактировать {{course.title}}</h1>
 
-<!--После отправки данные с формы будут уходить по адресу /add-->
 <form action="/courses/edit" method="POST" class="course-form">
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="title" name="title" type="text" class="validate" required value="{{course.title}}"> <!--добавим поле ввода с данными по умолчанию-->
-    <label for="title">Навание курса</label> <!--label для данноо поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите название для курса"</span>
+  <div class="input-field">
+    <input id="title" name="title" type="text" class="validate" required value="{{course.title}}">
+    <label for="title">Название курса</label>
+    <span class="helper-text" data-error="Введите название"></span>
   </div>
 
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="price" name="price" type="number" class="validate" requiled min="1" value="{{course.price}}"> <!--добавим поле ввода с данными по умолчанию-->
-    <label for="price">Стоимость курса</label> <!--label для данного поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите стоимость курса"</span>
+  <div class="input-field">
+    <input id="price" name="price" type="number" class="validate" required min="1"  value="{{course.price}}">
+    <label for="price">Цена курса</label>
+    <span class="helper-text" data-error="Введите цену"></span>
   </div>
 
-  <div class="input-field"> <!--зададим класс для элемента-->
-    <input id="img" name="img" type="text" class="validate" required value="{{course.img}}"> <!--добавим поле ввода с данными по умолчанию-->
-    <label for="img">URL изображения</label> <!--label для данноо поля-->
-    <!--установим сообщения-подсказки для каждого поля-->
-     <span class="helper-text" data-error="Введите URL изображения"</span>
+  <div class="input-field">
+    <input id="img" name="img" type="text" class="validate" required  value="{{course.img}}">
+    <label for="img">URL картинки</label>
+    <span class="helper-text" data-error="Введите url картинки"></span>
   </div>
 
+  <input type="hidden" name="id" value="{{course.id}}">  <!--добавим сркытое поле с id курса-->
   <input type="hidden" name="_csrf" value="{{csrf}}">
-  <input type="hidden" name="id" value="{{course.id}}"> <!--добавим сркытое поле с id курса-->
 
-  <!-- добавим элемент button на форму-->
-  <button type="submit" class="btn btn-primary">Редактировать курс</button> <!--добавим кнопку на форму-->
+  <button type="submit" class="btn btn-primary">Редактировать курс</button>
 </form>
 
 <form action="/courses/remove" method="POST">
   <input type="hidden" name="_csrf" value="{{csrf}}">
-  <input type="hidden" name="id" value="{{course.id}}">
-  <button class="btn red">Удалить курс</input>
+  <input type="hidden" name="id" value="{{ course.id }}">
+  <button class="btn red">Удалить курс</button>
 </form>
