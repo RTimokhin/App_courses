@@ -8,7 +8,7 @@
     </div>
     <div id="login" class="col s6 offset-s3">
 
-      {{#if loginError}} <!--если есть ошибка-->
+      {{#if loginError}} <!--если есть ошибка авторизации-->
         <p class="alert">{{loginError}}</p>
       {{/if}}
 
@@ -40,7 +40,7 @@
       </form>
     </div>
     <div id="register" class="col s6 offset-s3">
-      {{#if registerError}}  <!--если есть ошибка-->
+      {{#if registerError}}  <!--если есть ошибка регистрации-->
         <p class="alert">{{registerError}}</p> <!--выведем текст ошибки-->
       {{/if}}
 

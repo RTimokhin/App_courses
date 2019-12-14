@@ -1,7 +1,7 @@
-const {Router} = require('express'); //подключим фраймворк express
-const Course = require('../models/course'); //подключим модель course
-const auth = require('../middleware/auth');
-const router = Router();
+const {Router} = require('express'); //подключим объект Router
+const Course = require('../models/course'); //подключим модель данных Сourse
+const auth = require('../middleware/auth'); //подключим промежуточное ПО для проверки аутентификации
+const router = Router(); //создадим экземпляр класса express.Router
 
 
 function mapCartItems(cart) {
@@ -19,9 +19,10 @@ function computePrice(courses) {
   }, 0);
 }
 
+//создадим обработчик для добавления курса в корзину
 router.post('/add', auth, async (req, res) => {
   const course = await Course.findById(req.body.id);  //получим id курса
-  await req.user.addToCart(course);
+  await req.user.addToCart(course); //добавим курс в корзину
   res.redirect('/card');  //перенаправим запрос на страницу корзины
 })
 
@@ -38,6 +39,7 @@ router.delete('/remove/:id', auth, async (req, res) => {
   res.status(200).json(cart);
 })
 
+//создадим обработчик для get запроса на страницу
 router.get('/', auth, async (req, res) => {
   const user = await req.user
   //добавим в текущую коллекцию содержимое курса из коллекции cart
@@ -46,12 +48,12 @@ router.get('/', auth, async (req, res) => {
 
   const courses = mapCartItems(user.cart); //сформируем массив курсов
 
-  res.render('card', {
-    title: 'Корзина',
-    isCard: true,
-    courses: courses,
-    price: computePrice(courses)
+  res.render('card', { //отобразим шаблон для страницы card
+    title: 'Корзина', //заголовок страницы
+    isCard: true, //флаг
+    courses: courses, //объект курсов
+    price: computePrice(courses) //цена
   })
 })
 
-module.exports = router; //экспортируем данный обработчик
+module.exports = router; //экспортируем данный роутер

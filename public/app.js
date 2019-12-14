@@ -25,6 +25,7 @@ document.querySelectorAll('.price').forEach(node => {
   node.textContent = toCurrency(node.textContent);
 })
 
+//для каждого элемента с селектором date изменим формат представления значения
 document.querySelectorAll('.date').forEach(node => {
   node.textContent = toDate(node.textContent);
 })
@@ -35,17 +36,17 @@ if ($card) { //если элемент с данным селектором су
     //если у элемента, по которому был совершен клик присутствует класс js-remove
     if (event.target.classList.contains('js-remove')) {
       const id = event.target.dataset.id; //получим id курса, который был удален из корзины
-      const csrf = event.target.dataset.csrf;
+      const csrf = event.target.dataset.csrf; //получим csrf токен курса, который был удален из корзины
 
       //создадим метод fetch для удаления курсов из корзины
       fetch('/card/remove/' + id, { //укажем путь, по которому будет совершен запрос
-        method: 'delete', //http метод delete
-        headers: {
+        method: 'delete', //используем http метод delete
+        headers: { //в headers передадим csrf токен удаляемого курса
           'X-XSRF-TOKEN': csrf
         },
-      }).then(res => res.json()) //вернём ответ в формате JSON
+      }).then(res => res.json()) //затем вернём ответ в формате JSON
         .then(card => {
-          if (card.courses.length) {
+          if (card.courses.length) { //если в корзине ещё остались курсы
             const html = card.courses.map(c => {
               return `
               <tr>

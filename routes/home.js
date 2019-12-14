@@ -1,11 +1,11 @@
-const {Router} = require('express');
-const router = Router();
+const {Router} = require('express'); //подключим объект Router
+const router = Router(); //создадим экземпляр класса express.Router
 
 //обработаем get запрос на главную страницу
 router.get('/', (req, res) => {
   res.render('index', { //отобразим на странице данные из шаблона index.hbs
-    title: 'Главная страница',
-    isHome: true
+    title: 'Главная страница', //зададим заголовк страницы
+    isHome: true //зададим флагу isHome значение true
   })
 })
 

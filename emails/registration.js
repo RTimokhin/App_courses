@@ -1,10 +1,12 @@
-const keys = require('../keys');
+const keys = require('../keys'); //подключим модуль, где хранятся ключи
 
+//сконфигурируем объект, задающий параметры электронного письма сообщающего об успешной регистрации
 module.exports = function(email) {
   return {
-    to: email,
-    from: keys.EMAIL_FROM,
-    subject: 'Аккаунт создан',
+    to: email, //адресат
+    from: keys.EMAIL_FROM, //от кого
+    subject: 'Аккаунт создан', //темы письма
+    //текст письма
     html: `
       <h1>Добро пожаловать в наш магазин</h1>
       <p>Вы успешно создали аккаунт c email - ${email}</p>

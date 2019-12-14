@@ -7,14 +7,14 @@ const userSchema = new Schema({
     type: String, //тип данных строка
     required: true //поле не должно быть пустым
   },
-  name: String, //определим структуру данных для объекта name
+  name: String, //определим структуру данных для поля name
   password: { //определим структуру данных для объекта password
     type: String, //тип данных строка
     required: true  //поле не должно быть пустым
   },
-  avatarUrl: String,
-  resetToken: String,
-  resetTokenExp: Date,
+  avatarUrl: String, //определим структуру данных для поля avatarUrl
+  resetToken: String, //определим структуру данных для поля resetToken
+  resetTokenExp: Date, //определим структуру данных для поля resetTokenExp
   cart: { //определим структуру данных для объекта cart
     items: [ //опишем элементы, которые будут входить в корзину
       {

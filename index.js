@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, 'public'))); //сделаем пап
 //теперь express при подгрузке страниц обращается к папке public
 
 app.use('/images', express.static(path.join(__dirname, 'images'))); //сделаем папку images статической
-app.use(express.urlencoded({extended: true})); //преобразуем входящий запрос в формат JSON
+app.use(express.urlencoded({extended: true})); //преобразуем входящие данные в формат JSON
 app.use(session({ //настроим конфигурацию сессии
   secret: keys.SESSION_SECRET,
   resave: false,

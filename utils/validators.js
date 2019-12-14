@@ -1,9 +1,9 @@
-const {body} = require('express-validator');
-const User = require('../models/user');
+const {body} = require('express-validator'); //подключим объект для проверки данных
+const User = require('../models/user'); //подключим модель User
 
-//проверим введённые данные на соответствие необходимым условиям валидации
+//создадим и экспортируем функцияю для проверки введённых данных на соответствие необходимым условиям валидации
 exports.registerValidators = [
-  //задаим условия валидации для поля email
+  //зададим условия валидации для поля email
   body('email')
     .isEmail().withMessage('Введите корректный email')
     .custom(async (value, {req}) => {
@@ -20,19 +20,19 @@ exports.registerValidators = [
     .normalizeEmail(),
     //зададим условия валидации для пароля
   body('password', 'Пароль должен быть минимум 6 символов')
-    .isLength({min: 6, max: 56})
-    .isAlphanumeric()
+    .isLength({min: 6, max: 56}) //зададим ограничения на длину пароля
+    .isAlphanumeric() //зададим ограничения на допустимые символы в пароле
     .trim(),
   //зададим условия валидации для поля confirm
   body('confirm')
     .custom((value, {req}) => {
-      if (value !== req.body.password) {
-        throw new Error('Пароли должны совпадать');
+      if (value !== req.body.password) { //если введенные пароли не совпадают
+        throw new Error('Пароли должны совпадать'); //выведем сообщение об ошибке
       }
       return true;
     })
     .trim(),
-  //зададим условия валидации дяя поля name
+  //зададим условия валидации для поля name
   body('name')
     .isLength({min: 3}).withMessage('Имя должно быть минимум 3 символа')
     .trim()
